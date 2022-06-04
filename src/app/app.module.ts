@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FavoritePageComponent } from './modules/favorites/pages/favorite-page/favorite-page.component';
+import { FavoritePageComponent } from "./modules/favorites/pages/favorite-page/FavoritePageComponent";
 
 @NgModule({
   declarations: [ //TODO: pueden ir, componentes, directivas, pipes
@@ -11,7 +11,7 @@ import { FavoritePageComponent } from './modules/favorites/pages/favorite-page/f
   ],
   imports: [ //TODO: solo se importan otros módulos
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
