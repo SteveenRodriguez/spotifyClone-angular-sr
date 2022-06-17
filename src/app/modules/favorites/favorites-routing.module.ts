@@ -5,7 +5,8 @@ import { FavoritePageComponent } from './pages/favorite-page/FavoritePageCompone
 const routes: Routes = [
   {
     path:'',
-    component:FavoritePageComponent
+    component:FavoritePageComponent,
+    outlet: 'child'
   }
 ];
 

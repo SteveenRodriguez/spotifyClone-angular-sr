@@ -7,7 +7,7 @@ import { FavoritePageComponent } from "./modules/favorites/pages/favorite-page/F
 
 @NgModule({
   declarations: [ //TODO: pueden ir, componentes, directivas, pipes
-    AppComponent, FavoritePageComponent
+    AppComponent
   ],
   imports: [ //TODO: solo se importan otros módulos
     BrowserModule,
