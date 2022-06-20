@@ -11,11 +11,9 @@ export class PlayListBodyComponent implements OnInit {
 
   tracks : TrackModel[] =[];
 
-  // @Input() tracks: TrackModel[] = []
-
-  // optionSort: { property: string | null, order: string } = {
-  //   property: null, order: 'asc'
-  // }
+  optionSort: { property: string | null, order: string } = {
+    property: null, order: 'asc'
+  }
 
   constructor() { }
 
@@ -24,14 +22,14 @@ export class PlayListBodyComponent implements OnInit {
     this.tracks = data;
   }
 
-  // changeSort(property: string): void {
-  //   const { order } = this.optionSort
-  //   this.optionSort = {
-  //     property,
-  //     order: order === 'asc' ? 'desc' : 'asc'
-  //   }
-  //   console.log(this.optionSort);
+  changeSort(property: string): void {
+    const { order } = this.optionSort
+    this.optionSort = {
+      property,
+      order: order === 'asc' ? 'desc' : 'asc'
+    }
+    console.log(this.optionSort);
 
-  // }
+  }
 
 }
