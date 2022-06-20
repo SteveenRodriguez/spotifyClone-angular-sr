@@ -35,7 +35,8 @@ import { ImgBrokenDirective } from './directives/img-broken.directive';
     SectionGenericComponent,
     PlayListHeaderComponent,
     PlayListBodyComponent,
-    OrderListPipe 
+    OrderListPipe,
+    ImgBrokenDirective
   ]
 })
 export class SharedModule { }
