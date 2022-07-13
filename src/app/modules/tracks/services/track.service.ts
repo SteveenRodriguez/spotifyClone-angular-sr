@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.models';
-import { observable, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 
 @Injectable({
@@ -8,11 +9,14 @@ import { observable, Observable, of } from 'rxjs';
 })
 export class TrackService {
 
-  dataTracksTrending$: Observable<TrackModel[]> = of([]);
-  dataTracksRandom$: Observable<any> = of([]);
+  constructor(private httpClient: HttpClient) {
 
-
-  constructor() {
-    
   }
+
+  getAllTracks$(): Observable {
+
+  }
+
+
+
 }
