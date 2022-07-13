@@ -26,23 +26,9 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
   }
 
-  loadDataAll():void {
+  async loadDataAll():Promise<any> {
    // se llama el metodo getAllTracks$ el cual retorn un observable, por tanto nos suscribimos para  obtener la data
-    this.trackService.getAllTracks$()
-    // le decimos a response que debe cumplir con el modelo de TrackModel
-      .subscribe((response:TrackModel[]) => {
-        this.tracksTrending = response;
-        // this.tracksRandom = response;
-        console.log(response)
-      })
-
-    // se llama al método getAllRandom$ return un observable
-    this.trackService.getAllRandom$()
-      .subscribe((response:TrackModel[]) => {
-        this.tracksRandom = response;
-        // this.tracksRandom = response;
-        console.log(response)
-      })
+    this.tracksTrending = await this.trackService.getAllTracks$().toPromise()
   }
 
 

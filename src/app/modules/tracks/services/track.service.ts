@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.models';
-import { map, Observable, mergeMap, tap } from 'rxjs';
+import { map, Observable, mergeMap, tap, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 
@@ -54,7 +54,12 @@ export class TrackService {
         //   // devolvemos la data con el filtro que le apliquemos
         //   return dataRevertida.filter((track: TrackModel) => track._id !== 1)
         // })
-        tap(data  => console.log('✔✔✔✔',data))
+        tap(data  => console.log('✔✔✔✔',data)),
+        catchError((error) => {
+          const {status, statustext} = error;
+          console.log('algo paso', [status, statustext])
+          return of([])
+        })
 
       )
   }
