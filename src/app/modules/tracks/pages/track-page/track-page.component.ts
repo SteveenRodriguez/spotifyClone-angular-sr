@@ -20,7 +20,14 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    // se llama el metodo getAllTracks$ el cual retorn un observable, por tanto nos suscribimos para  obtener la data
+
+    this.loadDataAll();
+    this.loadDataRandom();
+
+  }
+
+  loadDataAll():void {
+   // se llama el metodo getAllTracks$ el cual retorn un observable, por tanto nos suscribimos para  obtener la data
     this.trackService.getAllTracks$()
     // le decimos a response que debe cumplir con el modelo de TrackModel
       .subscribe((response:TrackModel[]) => {
@@ -37,6 +44,17 @@ export class TrackPageComponent implements OnInit, OnDestroy {
         console.log(response)
       })
   }
+
+
+  loadDataRandom():void {
+     // se llama al método getAllRandom$ return un observable
+     this.trackService.getAllRandom$()
+       .subscribe((response:TrackModel[]) => {
+         this.tracksRandom = response;
+         // this.tracksRandom = response;
+         console.log(response)
+       })
+   }
 
   ngOnDestroy(): void {
 
