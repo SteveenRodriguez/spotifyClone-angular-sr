@@ -20,7 +20,11 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
+    // se llama el metodo getAllTracks$ el cual retorn un observable, por tanto nos suscribimos para  obtener la data
+    this.trackService.getAllTracks$()
+      .subscribe(response => {
+        console.log(response)
+      })
   }
 
   ngOnDestroy(): void {
