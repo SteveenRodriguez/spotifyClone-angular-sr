@@ -38,6 +38,7 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.listObservers$.forEach(observer => observer.unsubscribe());
+    console.log("Hola mundo")
   }
 
 }
