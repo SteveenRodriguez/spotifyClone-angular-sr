@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.models';
 import { TrackService } from '@modules/tracks/services/track.service';
 import { Subscription } from 'rxjs';
-import * as dataRaw from '../../../../data/tracks.json'
+
 
 @Component({
   selector: 'app-track-page',
@@ -20,21 +20,27 @@ export class TrackPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    const observer1$ = this.trackService.dataTracksTrending$
-      .subscribe( response => {
-        this.tracksTrending = response;
-        this.tracksRandom = response;
-        console.log(response)
-      })
 
-      const observer2$ = this.trackService.dataTracksRandom$
-      .subscribe( response => {
-        this.tracksRandom = [...this.tracksTrending, ...response]
-        console.log(response)
-      })
+    this.loadDataAll();
+    this.loadDataRandom();
 
-    this.listObservers$ = [observer1$, observer2$]
   }
+
+  async loadDataAll():Promise<any> {
+   // se llama el metodo getAllTracks$ el cual retorn un observable, por tanto nos suscribimos para  obtener la data
+    this.tracksTrending = await this.trackService.getAllTracks$().toPromise()
+  }
+
+
+  loadDataRandom():void {
+     // se llama al método getAllRandom$ return un observable
+     this.trackService.getAllRandom$()
+       .subscribe((response:TrackModel[]) => {
+         this.tracksRandom = response;
+         // this.tracksRandom = response;
+         console.log(response)
+       })
+   }
 
   ngOnDestroy(): void {
     this.listObservers$.forEach(observer => observer.unsubscribe());

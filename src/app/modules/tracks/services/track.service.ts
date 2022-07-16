@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TrackModel } from '@core/models/tracks.models';
-import { observable, Observable, of } from 'rxjs';
-import * as dataRaw from '../../../data/tracks.json'
+import { map, Observable, mergeMap, tap, catchError, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -9,30 +10,58 @@ import * as dataRaw from '../../../data/tracks.json'
 })
 export class TrackService {
 
-  dataTracksTrending$: Observable<TrackModel[]> = of([]);
-  dataTracksRandom$: Observable<any> = of([]);
+  // Traemos la api desde enviroment
+  private readonly URL = environment.api;
 
+  // Inyectamos en el contructor el HttpClient para hacer las peticiones al backend
+  constructor(private httpClient: HttpClient) {
 
-  constructor() {
-    const { data }: any = (dataRaw as any).default;
-    this.dataTracksTrending$ = of(data)
+  }
 
-    this.dataTracksRandom$ = new Observable((observer) => {
-
-      const trackExample: TrackModel = {
-        _id: 9,
-        name: 'level',
-        album: 'dj',
-        url: 'http',
-        cover: 'https://www.cleverfiles.com/howto/wp-content/uploads/2018/03/minion.jpg'
-      }
-
-
-      setTimeout(()=> {
-        observer.next([trackExample])
-      }, 1500)
-
-
+  // función que permite filtrar por el id que le pasemos y no mostrarlo en la lista
+    // recibe dos parámetros de tipo  TrackModel[] y id:number
+  private skipById(listTracks:TrackModel[], id:number):
+  Promise<TrackModel[]> {
+    return new Promise((resolve, reject) => {
+      // lista temporal aplicando el filtro
+      const listTemp = listTracks.filter(a => a._id !== id)
+      resolve(listTemp)
     })
   }
+
+
+  // este método retorna un observable de tipo HttpClien
+  // los observables le podemos hacer uso de (pipe)
+  getAllTracks$(): Observable<any> {
+    // Traemos todas las canciones con el método Get()
+    return this.httpClient.get(`${this.URL}/tracks`)
+      .pipe(
+        // utilizando destructuración llamamos la propiedad data
+        map(({data}:any) => {
+          return data
+        })
+      )
+  }
+
+
+  getAllRandom$(): Observable<any> {
+    // Traemos todas las canciones con el método Get()
+    return this.httpClient.get(`${this.URL}/tracks`)
+      .pipe(
+        // utilizando destructuración llamamos la propiedad data
+        mergeMap(({data}:any) => this.skipById(data, 1)),
+        // map((dataRevertida) => {
+        //   // devolvemos la data con el filtro que le apliquemos
+        //   return dataRevertida.filter((track: TrackModel) => track._id !== 1)
+        // })
+        tap(data  => console.log('✔✔✔✔',data)),
+        catchError((error) => {
+          const {status, statustext} = error;
+          console.log('algo paso', [status, statustext])
+          return of([])
+        })
+
+      )
+  }
+
 }
